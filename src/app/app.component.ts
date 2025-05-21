@@ -5,6 +5,8 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { DynamicPieChartComponentComponent } from './dynamic-pie-chart-component/dynamic-pie-chart-component.component';
 import { BarComponent } from './bar/bar.component';
+import { PieComponent } from './pie/pie.component';
+import { ScatterComponent } from './scatter/scatter.component';
 @Component({
   selector: 'app-root',
   imports: [
@@ -12,6 +14,8 @@ import { BarComponent } from './bar/bar.component';
     PieChartComponent,
     DynamicPieChartComponentComponent,
     BarComponent,
+    PieComponent,
+    ScatterComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
