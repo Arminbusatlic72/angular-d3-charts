@@ -1,23 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
+
 @Component({
   selector: 'app-bar',
-  imports: [],
   templateUrl: './bar.component.html',
-  styleUrl: './bar.component.scss',
+  styleUrls: ['./bar.component.scss'],
 })
 export class BarComponent implements OnInit {
-  private data = [
-    { Framework: 'Vue', Stars: '166443', Released: '2014' },
-    { Framework: 'React', Stars: '150793', Released: '2013' },
-    { Framework: 'Angular', Stars: '62342', Released: '2016' },
-    { Framework: 'Backbone', Stars: '27647', Released: '2010' },
-    { Framework: 'Ember', Stars: '21471', Released: '2011' },
-  ];
+  // private data = [
+  //   { Framework: 'Vue', Stars: '166443', Released: '2014' },
+  //   { Framework: 'React', Stars: '150793', Released: '2013' },
+  //   { Framework: 'Angular', Stars: '62342', Released: '2016' },
+  //   { Framework: 'Backbone', Stars: '27647', Released: '2010' },
+  //   { Framework: 'Ember', Stars: '21471', Released: '2011' },
+  // ];
+  private data = [];
   private svg: any;
   private margin = 50;
   private width = 750 - this.margin * 2;
   private height = 400 - this.margin * 2;
+
+  ngOnInit(): void {
+    this.createSvg();
+
+    d3.csv('/frameworks.csv')
+      .then((data) => {
+        // Convert strings to numbers if needed
+        const parsedData = data.map((d: any) => ({
+          Framework: d.Framework,
+          Stars: +d.Stars, // Convert to number
+          Released: +d.Released, // Convert to number
+        }));
+
+        this.drawBars(parsedData);
+      })
+      .catch((error) => {
+        console.error('Error loading CSV:', error);
+      });
+  }
+
   private createSvg(): void {
     this.svg = d3
       .select('figure#bar')
@@ -27,6 +48,7 @@ export class BarComponent implements OnInit {
       .append('g')
       .attr('transform', 'translate(' + this.margin + ',' + this.margin + ')');
   }
+
   private drawBars(data: any[]): void {
     // Create the X-axis band scale
     const x = d3
@@ -61,9 +83,5 @@ export class BarComponent implements OnInit {
       .attr('width', x.bandwidth())
       .attr('height', (d: any) => this.height - y(d.Stars))
       .attr('fill', '#d04a35');
-  }
-  ngOnInit(): void {
-    this.createSvg();
-    this.drawBars(this.data);
   }
 }
