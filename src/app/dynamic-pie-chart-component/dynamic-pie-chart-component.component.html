@@ -1,0 +1,11 @@
+<div class="dynamic-chart-container">
+  <div class="dropdown">
+    <label for="value">Choose dataset:</label>
+    <select id="value" (change)="changeValue($event)">
+      <option value="apples" selected>Apples</option>
+      <option value="oranges">Oranges</option>
+    </select>
+  </div>
+
+  <div #chartContainer class="chart-container"></div>
+</div>
